@@ -311,7 +311,7 @@ namespace OpenRiaServices.Client.PortableWeb
                 {
                     var Content = response.Content.ReadAsStringAsync().Result;
                     if (!Content.Contains("DomainServiceFault"))
-                        throw new DomainOperationException(message, OperationErrorStatus.ServerError, (int)response.StatusCode, null);
+                         throw new DomainOperationException(message, OperationErrorStatus.ServerError, (int)response.StatusCode, null);
                 }
             }
 
