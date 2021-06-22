@@ -308,7 +308,11 @@ namespace OpenRiaServices.Client.PortableWeb
                 else if (response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new DomainOperationException(message, OperationErrorStatus.Unauthorized, (int)response.StatusCode, null);
                 else
-                    throw new DomainOperationException(message, OperationErrorStatus.ServerError, (int)response.StatusCode, null);
+                {
+                    var Content = response.Content.ReadAsStringAsync().Result;
+                    if (!Content.Contains("DomainServiceFault"))
+                        throw new DomainOperationException(message, OperationErrorStatus.ServerError, (int)response.StatusCode, null);
+                }
             }
 
             var streamTask = response.Content.ReadAsStreamAsync();
