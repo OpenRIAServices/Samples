@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>AspNetCore.Client</RootNamespace>
+    <LinkedOpenRiaServerProject>..\AspNetCore.Hosting.AspNetCore\AspNetCore.Hosting.AspNetCore.csproj</LinkedOpenRiaServerProject>
+    <OpenRiaGenerateApplicationContext>true</OpenRiaGenerateApplicationContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Generated_Code\AspNetCore.Hosting.AspNetCore.g.cs" />
+    <None Include="Generated_Code\AspNetCore.Hosting.AspNetCore.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenRiaServices.Client.CodeGen" Version="5.4.0-tags-v5-4-0-preview-1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.3.1" />
+  </ItemGroup>
+
+</Project>
