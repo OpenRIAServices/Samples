@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenRiaServices.Server;
@@ -26,12 +25,12 @@ namespace SimpleApplication.Web
 
         private Task Delay(int milliseconds)
         {
-            return Task.Delay(milliseconds, ServiceContext.CancellationToken);
+            return Task.Delay(milliseconds);
         }
 
         private Task Delay(TimeSpan delay)
         {
-            return Task.Delay(delay, ServiceContext.CancellationToken);
+            return Task.Delay(delay);
         }
 
         [Query(HasSideEffects = true)]
@@ -199,7 +198,7 @@ namespace SimpleApplication.Web
         [Invoke(HasSideEffects = false)]
         public async Task<int> AddOneAsync(int number)
         {
-            await Task.Delay(1, ServiceContext.CancellationToken);
+            await Task.Delay(1);
             return number + 1;
         }
 

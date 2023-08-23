@@ -1,14 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.0.0-preview0003" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CustomEndpoint.Client.Core\CustomEndpoint.Client.Core.csproj" />

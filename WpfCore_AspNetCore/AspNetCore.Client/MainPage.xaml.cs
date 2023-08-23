@@ -7,6 +7,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using AspNetCore.Client;
+using System.Threading;
+using AspNetCore;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SimpleApplication.Client
 {
@@ -20,9 +24,25 @@ namespace SimpleApplication.Client
 
             this.entities.ItemsSource = _ctx.RangeItems;
             this._items.ItemsSource = _ctx.RangeItems;
+
+            App.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            // Dispatcher.UnhandledException From a single specific UI dispatcher thread.
+            // Application.Current.DispatcherUnhandledException From the main UI dispatcher thread in your WPF application.
+            // TaskScheduler.UnobservedTaskException
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("CurrentDomain_UnhandledException");
+        }
 
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            e.SetObserved();
+            MessageBox.Show("TaskScheduler_UnobservedTaskException");
+        }
 
         public string Status1
         {
@@ -47,8 +67,25 @@ namespace SimpleApplication.Client
 
         private string _staus2 = string.Empty;
 
+        private Task ThrowAsync1()
+        {
+            return Task.FromException(new InvalidOperationException());
+        }
+
+        private async Task ThrowAsync2()
+        {
+            await Task.Delay(10);
+            throw new ArgumentNullException();
+        }
+
         private void Invoke1_OnClick(object sender, RoutedEventArgs e)
         {
+            var t2 = ThrowAsync2();
+            t2.GetAwaiter().OnCompleted(() => t2.GetAwaiter().GetResult());
+
+            var t1 = ThrowAsync2();
+            t1.GetAwaiter().OnCompleted(() => t1.GetAwaiter().GetResult());
+
             try
             {
                 Status1 = string.Format("starting Invoke 1");
@@ -64,18 +101,57 @@ namespace SimpleApplication.Client
             }
         }
 
+        private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            Debugger.Break();
+        }
+
         private async void Invoke2_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Status2 = string.Format("starting Invoke 2");
-                var res = await _ctx.AddOneAsync(22);
-                Status2 = string.Format("AddOneTaskAsync(22) = {0}", res.Value);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error" + ex.Message);
-            }
+            SynchronizationContext s = new SynchronizationContext();
+            s.Post(_ => throw new ArgumentException(), null);
+
+            //Task.Factory.StartNew(() =>
+            //{
+            //    try
+            //    {
+            //        var t1 = ThrowAsync1();
+            //        t1.GetAwaiter().OnCompleted(() => t1.GetAwaiter().GetResult());
+            //    }
+            //    catch (Exception)
+            //    {
+            //        throw;
+            //    }
+            //});
+
+            //Task.Factory.StartNew(() =>
+            //{
+            //    try
+            //    {
+            //        var t2 = ThrowAsync2();
+            //        t2.GetAwaiter().OnCompleted(() => t2.GetAwaiter().GetResult());
+            //    }
+            //    catch (Exception)
+            //    {
+            //        throw;
+            //    }
+            //});
+
+            //var t1 = ThrowAsync1();
+            //t1.GetAwaiter().OnCompleted(() => t1.GetAwaiter().GetResult());
+
+
+            //try
+            //{
+            //    Status2 = string.Format("starting Invoke 2");
+            //    var res = await _ctx.AddOneAsync(22);
+            //    Status2 = string.Format("AddOneTaskAsync(22) = {0}", res.Value);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Error" + ex.Message);
+            //}
         }
 
         private void Get_Click(object sender, RoutedEventArgs e)

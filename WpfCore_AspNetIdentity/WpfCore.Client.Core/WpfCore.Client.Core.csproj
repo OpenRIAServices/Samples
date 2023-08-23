@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>WpfCore.Client</RootNamespace>
     <LinkedOpenRiaServerProject>..\WpfCore.Web\WpfCore.Web.csproj</LinkedOpenRiaServerProject>
     <OpenRiaGenerateApplicationContext>true</OpenRiaGenerateApplicationContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRiaServices.Client.CodeGen" Version="5.0.0-rc0001">
+    <PackageReference Include="OpenRiaServices.Client.CodeGen" Version="5.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.0.0-rc0001" />
+    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.3.1" />
   </ItemGroup>
 
   <ItemGroup>

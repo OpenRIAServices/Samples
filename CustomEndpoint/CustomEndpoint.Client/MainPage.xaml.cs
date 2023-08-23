@@ -1,7 +1,7 @@
 ﻿using CustomEndpoint.Web;
 using CustomEndpoint.Web.Model;
-using OpenRiaServices.DomainServices.Client;
-using OpenRiaServices.DomainServices.Client.ApplicationServices;
+using OpenRiaServices.Client;
+using OpenRiaServices.Client.Authentication;
 using System;
 using System.Linq;
 using System.Windows;

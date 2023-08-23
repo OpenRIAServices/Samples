@@ -1,5 +1,5 @@
-﻿using OpenRiaServices.DomainServices.Hosting;
-using OpenRiaServices.DomainServices.Hosting.Configuration.Internal;
+﻿using OpenRiaServices.Hosting;
+using OpenRiaServices.Hosting.Wcf.Configuration.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace CustomEndpoint.Web
             // DomainServicesSection.Current.Endpoints.Add(new System.Configuration.ProviderSettings("binary2", typeof(BinaryEndpointFactory).AssemblyQualifiedName));
 
             // Remove default binary REST
-            var configuration = DomainServieHostingConfiguration.Current;
+            var configuration = DomainServiceHostingConfiguration.Current;
             configuration.EndpointFactories.Clear();
             configuration.EndpointFactories.Add(new BinaryEndpointFactory());
         }

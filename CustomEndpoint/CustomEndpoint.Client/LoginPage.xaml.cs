@@ -1,5 +1,5 @@
-﻿using OpenRiaServices.DomainServices.Client;
-using OpenRiaServices.DomainServices.Client.ApplicationServices;
+﻿using OpenRiaServices.Client;
+using OpenRiaServices.Client.Authentication;
 using CustomEndpoint.Web;
 using System;
 using System.Windows;
@@ -20,7 +20,7 @@ namespace CustomEndpoint.Client
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            DomainContext.DomainClientFactory = new OpenRiaServices.DomainServices.Client.Web.BinaryDomainClientFactory()
+            DomainContext.DomainClientFactory = new OpenRiaServices.Client.Web.BinaryDomainClientFactory()
             {
                 ServerBaseUri = new Uri(Uri.Text, UriKind.Absolute)
             };

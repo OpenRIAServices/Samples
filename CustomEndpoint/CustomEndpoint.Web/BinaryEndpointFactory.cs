@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.ServiceModel;
-using OpenRiaServices;
-using System.ServiceModel.Description;
-using OpenRiaServices.DomainServices.Hosting;
-using OpenRiaServices.DomainServices.Server;
 using System.ServiceModel.Channels;
-using System.Net;
-using OpenRiaServices.DomainServices.Hosting.Behaviors;
+using System.ServiceModel.Description;
+using OpenRiaServices.Hosting.Wcf;
+using OpenRiaServices.Hosting.Wcf.Behaviors;
+using OpenRiaServices.Server;
 
-namespace OpenRiaServices.DomainServices.Hosting
+namespace OpenRiaServices.Hosting
 {
     /// <summary>
     /// Represents a SOAP w/ XML encoding endpoint factory for <see cref="DomainService"/>s.

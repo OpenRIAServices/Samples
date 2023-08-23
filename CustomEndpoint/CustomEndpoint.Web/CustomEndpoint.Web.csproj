@@ -87,26 +87,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="EntityFramework">
-      <Version>6.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Mono.Cecil">
-      <Version>0.11.0</Version>
-    </PackageReference>
-    <PackageReference Include="OpenRiaServices.DomainServices.Server.Authentication.AspNetMembership">
-      <Version>5.0.0-preview0003</Version>
+    <PackageReference Include="OpenRiaServices.Server.Authentication.AspNetMembership">
+      <Version>5.3.1</Version>
     </PackageReference>
     <PackageReference Include="OpenRiaServices.Endpoints">
-      <Version>5.0.0-preview0003</Version>
+      <Version>5.3.1</Version>
     </PackageReference>
     <PackageReference Include="OpenRiaServices.EntityFramework">
-      <Version>5.0.0-preview0003</Version>
+      <Version>5.3.1</Version>
     </PackageReference>
     <PackageReference Include="OpenRiaServices.Server">
-      <Version>5.0.0-preview0003</Version>
-    </PackageReference>
-    <PackageReference Include="OpenRiaServices.T4">
-      <Version>5.0.0-preview0003</Version>
+      <Version>5.3.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
