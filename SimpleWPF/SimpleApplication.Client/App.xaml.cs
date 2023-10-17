@@ -36,19 +36,8 @@ namespace SimpleApplication.Client
                 ServerBaseUri = new Uri("https://localhost:44373/", UriKind.Absolute)
             };
 
-
-            // Setup communication to use portable "/soap" endpoint
-            /*
-            DomainContext.DomainClientFactory = new SoapDomainClientFactory()
-            {
-                // Uncomment this to debug in fiddler
-                // ServerBaseUri = new Uri("http://localhost.fiddler:51359/ClientBin/", UriKind.Absolute)
-                ServerBaseUri = new Uri("https://localhost:44373/", UriKind.Absolute)
-            };
-            */
-
             // Create a WebContext
-            // This will then be available as WebContext.Current.
+            // This will be available as WebContext.Current.
             WebContext webContext = new WebContext
             {
                 Authentication = new FormsAuthentication()
@@ -64,18 +53,18 @@ namespace SimpleApplication.Client
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show("CurrentDomain_UnhandledException");
+            MessageBox.Show("CurrentDomain_UnhandledException: " + e.ExceptionObject?.ToString());
         }
 
         private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            MessageBox.Show("TaskScheduler_UnobservedTaskException");
+            MessageBox.Show("TaskScheduler_UnobservedTaskException: " + e.Exception?.GetBaseException().ToString());
             e.SetObserved();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show("App_DispatcherUnhandledException");
+            MessageBox.Show("App_DispatcherUnhandledException: " + e.Exception?.ToString());
             e.Handled = true;
         }
     }
