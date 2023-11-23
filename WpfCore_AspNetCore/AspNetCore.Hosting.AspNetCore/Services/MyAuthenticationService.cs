@@ -23,6 +23,7 @@ namespace AspNetCore.Hosting.AspNetCore.Services
           => base.ServiceContext.GetRequiredService<IHttpContextAccessor>().HttpContext!;
 
         [AllowAnonymous]
+        [Query(IsComposable = false)]
         public MyUser GetUser()
         {
             var user = (ClaimsPrincipal)base.ServiceContext.User;
@@ -33,6 +34,7 @@ namespace AspNetCore.Hosting.AspNetCore.Services
         }
 
         [AllowAnonymous]
+        [Query(HasSideEffects = true, IsComposable = false)] // Force POST to prevent arguments from being leaked via uri
         public async Task<MyUser> LoginAsync(string userName, string password, bool isPersistent, string customData)
         {
             if (ValidateCredentials(userName, password, customData))
@@ -64,6 +66,7 @@ namespace AspNetCore.Hosting.AspNetCore.Services
         }
 
         [AllowAnonymous]
+        [Query(HasSideEffects = true, IsComposable = false)] // Force POST
         public async Task<MyUser> LogoutAsync()
         {
             await HttpContext.SignOutAsync();
@@ -72,6 +75,7 @@ namespace AspNetCore.Hosting.AspNetCore.Services
         }
 
         // [RequiresAuthentication] -- not needed since we have Authorize on class
+        [Update]
         public void UpdateUser(MyUser user)
         {
             throw new System.NotImplementedException();
