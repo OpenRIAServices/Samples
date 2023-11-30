@@ -63,3 +63,80 @@ Remove the generated file once and then add it as "none" to still see it in solu
   </ItemGroup>
 ```
 
+
+
+# Authentication and Authorization
+**This sample** shows how cookie based login similar to ASP.NET Membership provider *can* be handled.
+You will need to tweak it so it validates credentials, assign correct Claims (Roles) to users and fits your choosen scheme for authentication.
+
+On the server you need to setup Authentication (and preferably Authorization) using "normal" aspnetcore practices.
+ The official [AspNetCore cookie documentation](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-7.0)  contains login as well as logout code.
+More details can be found inhttps://github.com/OpenRIAServices/OpenRiaServices/issues/445
+
+
+### Client setup
+For the client, **you need to ensure that all HttpClients share the same CookieContainer** and that the it is set to use to cookies (https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclienthandler.usecookies?view=net-7.0#system-net-http-httpclienthandler-usecookies)
+
+### Asp.Net Core Setup Authentication and Authorization setup
+
+In Program.cs the following code is needed
+
+Service registrations, adds cookie based authentication and enable Authorization
+```csharp
+// Additional dependencies for cookie based AuthenticationService
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddAuthorization();
+```
+
+After the "application has been built" and the middleware is configured you should add Authentication (and Authorization if used).
+They should be added **before** *OpenRiaServices*
+
+```csharp
+// Add authentication
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Enable OpenRiaServices
+app.MapOpenRiaServices(....
+```
+
+### Protecting DomainServices using Authorization middleware
+
+A good idea is to protect whole DomainServices, or all of them, by requiring authorization.
+The [Authorization middleware](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction) should run before the DomainService is created so you will avoid any cost with creating the DomainService and it's dependencies, providing a much better protection against DOS.
+
+**IMPORANT**: error message on the client will be different and not as user friendly as if the `[RequiresAuthentication]` attribute is used.
+You might want to consider changing the HTTP status code to 403 instead of 404 for a better experience (https://learn.microsoft.com/en-us/aspnet/core/security/authorization/customizingauthorizationmiddlewareresponse)
+**Note**: If you need to selectivly only require authentication for some Submit operations (Insert, Update, Delete or Entity Action) then remember to use `[RequiresAuthentication]`
+
+**Require request to all DomainServices be authorized using default authorization policy**:
+
+```csharp
+app.MapOpenRiaServices(builder =>
+{
+    builder.AddDomainService<SampleDomainService>();
+    builder.AddDomainService<MyAuthenticationService>();
+}).RequireAuthorization();
+```
+
+You can also control the setting per DomainService using code
+```csharp
+app.MapOpenRiaServices(builder =>
+{
+    builder.AddDomainService<SampleDomainService>()
+        .RequireAuthorization();
+    builder.AddDomainService<MyAuthenticationService>();
+});
+```
+
+You can also control the setting per DomainService using attributes
+```csharp
+[Authorize]
+public class MyAuthenticationService : DomainService, IAuthentication<MyUser>
+{
+    [AllowAnonymous]
+    public MyUser GetUser() {...}
+```
