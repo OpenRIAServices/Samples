@@ -111,7 +111,7 @@ namespace SimpleApplication.Web
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [Query(HasSideEffects = true, IsComposable = false)]
-        public Task<RangeItem?> GetRangeByIdTaskAsync(int id)
+        public Task<RangeItem> GetRangeByIdTaskAsync(int id)
         {
             return Delay(1)
                 .ContinueWith(_ =>

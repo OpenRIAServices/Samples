@@ -16,7 +16,7 @@ To run/debug this project:
     2. Register all DomainServices manually (as Transient)
     3. Add call to Map OpenRiaServices to a specific path (or skip prefix to map all requests to the root)
 
-    ```
+    ```csharp
     // Enable mapping of all requests to root 
     app.MapOpenRiaServices(builder =>
     {
@@ -33,12 +33,12 @@ To run/debug this project:
 2. Install `OpenRiaServices.Client.Core` and `OpenRiaServices.Client.CodeGen` (at least 5.4.0-preview) nuget s
 2. Add `<LinkedOpenRiaServerProject>` tag to csproj 
 3. At program startup before the forst call to the server the "DomainClientFactory" and server Uri needs to be specified
- ```
+```csharp
    var serverUri = new Uri("YOUR URI", UriKind.Absolute);
    DomainContext.DomainClientFactory = new OpenRiaServices.Client.DomainClients.BinaryHttpDomainClientFactory(serverUri , new System.Net.Http.HttpClientHandler());
 ```
 4. You can now create instances of your client side context (Samples
-```
+```csharp
 var ctx = new SampleDomainContext();
 
 var resultFromInvoke = await ctx.AddOneAsync(22);
@@ -49,14 +49,14 @@ Console.WriteLine("22 plus one is {resultFromInvoke.Value}");
 
 Se the following in "CodeGen.csproj"
 
-```
+```xml
 <LinkedOpenRiaServerProject>..\AspNetCore.Hosting.AspNetCore\AspNetCore.Hosting.AspNetCore.csproj</LinkedOpenRiaServerProject>
 ```
 
 ### Avoid build warning about duplicate includes
 
 Remove the generated file once and then add it as "none" to still see it in solution view
-```
+```xml
   <ItemGroup>
     <Compile Remove="Generated_Code\AspNetCore.Hosting.AspNetCore.g.cs" />
     <None Include="Generated_Code\AspNetCore.Hosting.AspNetCore.g.cs" />

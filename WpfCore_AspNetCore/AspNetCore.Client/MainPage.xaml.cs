@@ -67,25 +67,8 @@ namespace SimpleApplication.Client
 
         private string _staus2 = string.Empty;
 
-        private Task ThrowAsync1()
-        {
-            return Task.FromException(new InvalidOperationException());
-        }
-
-        private async Task ThrowAsync2()
-        {
-            await Task.Delay(10);
-            throw new ArgumentNullException();
-        }
-
         private void Invoke1_OnClick(object sender, RoutedEventArgs e)
         {
-            var t2 = ThrowAsync2();
-            t2.GetAwaiter().OnCompleted(() => t2.GetAwaiter().GetResult());
-
-            var t1 = ThrowAsync2();
-            t1.GetAwaiter().OnCompleted(() => t1.GetAwaiter().GetResult());
-
             try
             {
                 Status1 = string.Format("starting Invoke 1");
@@ -109,49 +92,16 @@ namespace SimpleApplication.Client
 
         private async void Invoke2_OnClick(object sender, RoutedEventArgs e)
         {
-            SynchronizationContext s = new SynchronizationContext();
-            s.Post(_ => throw new ArgumentException(), null);
-
-            //Task.Factory.StartNew(() =>
-            //{
-            //    try
-            //    {
-            //        var t1 = ThrowAsync1();
-            //        t1.GetAwaiter().OnCompleted(() => t1.GetAwaiter().GetResult());
-            //    }
-            //    catch (Exception)
-            //    {
-            //        throw;
-            //    }
-            //});
-
-            //Task.Factory.StartNew(() =>
-            //{
-            //    try
-            //    {
-            //        var t2 = ThrowAsync2();
-            //        t2.GetAwaiter().OnCompleted(() => t2.GetAwaiter().GetResult());
-            //    }
-            //    catch (Exception)
-            //    {
-            //        throw;
-            //    }
-            //});
-
-            //var t1 = ThrowAsync1();
-            //t1.GetAwaiter().OnCompleted(() => t1.GetAwaiter().GetResult());
-
-
-            //try
-            //{
-            //    Status2 = string.Format("starting Invoke 2");
-            //    var res = await _ctx.AddOneAsync(22);
-            //    Status2 = string.Format("AddOneTaskAsync(22) = {0}", res.Value);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Error" + ex.Message);
-            //}
+            try
+            {
+                Status2 = string.Format("starting Invoke 2");
+                var res = await _ctx.AddOneAsync(22);
+                Status2 = string.Format("AddOneTaskAsync(22) = {0}", res.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error" + ex.Message);
+            }
         }
 
         private void Get_Click(object sender, RoutedEventArgs e)
