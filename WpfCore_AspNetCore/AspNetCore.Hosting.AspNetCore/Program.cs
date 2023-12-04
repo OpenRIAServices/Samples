@@ -1,5 +1,5 @@
+using System.Net;
 using AspNetCore.Hosting.AspNetCore.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using OpenRiaServices.Hosting.AspNetCore;
 using SimpleApplication.Web;
 
@@ -11,8 +11,22 @@ builder.Services.AddTransient<SampleDomainService>();
 builder.Services.AddTransient<MyAuthenticationService>();
 
 // Additional dependencies for cookie based AuthenticationService
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+builder.Services.AddAuthentication()
+    .AddCookie(opt =>
+    {
+        // Example of how to set status code when trying to access protected
+        // Without this you can expect http 404  unless you have a matching endpoint for the RedirectUri ("/Account/Login")
+        opt.Events.OnRedirectToLogin = (ctx) =>
+         {
+             if (ctx.Response.StatusCode == 200)
+             {
+                 ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                 ctx.Response.Headers.Location = ctx.RedirectUri;
+             }
+
+             return Task.CompletedTask;
+         };
+    });
 builder.Services.AddHttpContextAccessor();
 // Add default authorization policy which requires user to be authenticated
 builder.Services.AddAuthorization();
