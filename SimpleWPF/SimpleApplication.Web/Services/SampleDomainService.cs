@@ -101,7 +101,7 @@ namespace SimpleApplication.Web
         /// <returns></returns>
         public IQueryable<RangeItem> GetRangeWithNormalException()
         {
-            throw new Exception("Not allowed");
+            throw new InvalidOperationException("Not allowed");
         }
 
         //[RequiresRole("DUMMY")]

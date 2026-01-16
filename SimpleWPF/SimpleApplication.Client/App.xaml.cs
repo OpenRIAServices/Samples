@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using OpenRiaServices.Client;
 using OpenRiaServices.Client.Authentication;
-using OpenRiaServices.Client.Web;
 using SimpleApplication.Web;
 
 namespace SimpleApplication.Client
@@ -29,12 +25,12 @@ namespace SimpleApplication.Client
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             // Setup communication to use default "/binary" endpoint
-            DomainContext.DomainClientFactory = new WebDomainClientFactory()
-            {
-                // Uncomment this to debug in fiddler
-                // ServerBaseUri = new Uri("http://localhost.fiddler:51359/ClientBin/", UriKind.Absolute)
-                ServerBaseUri = new Uri("https://localhost:44373/", UriKind.Absolute)
-            };
+            var serverBaseUri = new Uri("http://localhost:51359/", UriKind.Absolute);
+            // Uncomment this to debug in fiddler
+            // serverBaseUri = new Uri("http://localhost.fiddler:51359/", UriKind.Absolute);
+
+            var clientHandler = new HttpClientHandler();            
+            DomainContext.DomainClientFactory = new OpenRiaServices.Client.DomainClients.BinaryHttpDomainClientFactory(serverBaseUri, clientHandler);
 
             // Create a WebContext
             // This will be available as WebContext.Current.
