@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>AspNetCore.Client</RootNamespace>
+    <LinkedOpenRiaServerProject>..\AspNetCore.Hosting.AspNetCore\AspNetCore.Hosting.AspNetCore.csproj</LinkedOpenRiaServerProject>
+    <OpenRiaGenerateApplicationContext>true</OpenRiaGenerateApplicationContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenRiaServices.Client.CodeGen" Version="5.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="OpenRiaServices.Client.Core" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generated_Code\" />
+  </ItemGroup>
+
+</Project>
