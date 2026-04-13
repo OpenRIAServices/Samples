@@ -43,7 +43,7 @@
 		<Button Grid.Row="2" Content="Invoke2" Click="Invoke2_OnClick" Grid.ColumnSpan="2"/>
 		<Button Grid.Row="3" Content="Get A" Click="Get_Click" Grid.ColumnSpan="2" />
 
-		<ListBox x:Name="entities" Grid.Row="4" Height="50" BorderBrush="SaddleBrown" Grid.ColumnSpan="2">
+		<ListBox x:Name="entities" Grid.Row="4" Height="100" BorderBrush="SaddleBrown" Grid.ColumnSpan="2">
 			<ListBox.ItemTemplate>
 				<DataTemplate DataType="{x:Type model:RangeItem}">
 					<StackPanel>
@@ -62,20 +62,18 @@
 		<ItemsControl x:Name="_items" Grid.Row="7">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate DataType="{x:Type model:RangeItem}">
-					<Border Background="AliceBlue">
-						<Grid Width="420">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="100"/>
-								<ColumnDefinition Width="100"/>
-								<ColumnDefinition Width="100"/>
-								<ColumnDefinition Width="100"/>
-							</Grid.ColumnDefinitions>
-							<TextBlock Text="Id" />
-							<TextBox Text="{Binding Id}" Grid.Column="1"/>
-							<TextBlock Text="Text" Grid.Column="2"/>
-							<TextBox Text="{Binding Path=Text, Mode=TwoWay}" Grid.Column="3"/>
-						</Grid>
-					</Border>
+					<Grid Width="420" HorizontalAlignment="Left">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="100" />
+							<ColumnDefinition Width="100"/>
+							<ColumnDefinition Width="100"/>
+							<ColumnDefinition Width="100"/>
+						</Grid.ColumnDefinitions>
+						<TextBlock Text="Id" />
+						<TextBox Text="{Binding Id}" Grid.Column="1"/>
+						<TextBlock Text="Text" Grid.Column="2"/>
+						<TextBox Text="{Binding Path=Text, Mode=TwoWay}" Grid.Column="3"/>
+					</Grid>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

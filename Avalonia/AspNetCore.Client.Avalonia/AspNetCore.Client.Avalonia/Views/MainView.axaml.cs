@@ -18,11 +18,8 @@ namespace AspNetCore.Client.Avalonia.Views
 		{
 			InitializeComponent();
 
-
-			// Note Avalonia needs IList on source so use EntityList 
-			var items = new EntityList<RangeItem>(_ctx.RangeItems);
-			this.entities.ItemsSource = items;
-			this._items.ItemsSource = items;
+			this.entities.ItemsSource = _ctx.RangeItems;
+			this._items.ItemsSource = _ctx.RangeItems;
 		}
 
 
